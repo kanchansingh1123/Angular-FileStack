@@ -10,7 +10,7 @@ import { AppConfigService } from "providers/services/web/app-config.services";
     templateUrl : "filestack.html"
 })
 
-export class FileStack implements OnInit, OnDestroy{
+export class FileStackComponent implements OnInit, OnDestroy{
     private el:HTMLElement;
 
     public key = "AtwbB54GRKuuUtalBgIFAz";
@@ -40,28 +40,22 @@ export class FileStack implements OnInit, OnDestroy{
     ngOnInit(){
        // this.appConfigSubscriber = this.appConfigService.getConfig().subscribe();
     }
-
-    ngOnDestroy(){
-        if(this.appConfigSubscriber){
-            this.appConfigSubscriber.unsubscribe();
-            this.appConfigSubscriber = null;
-        }
-    }
+    
 
     /**open filestack on click event**/
     @HostListener("click", ['$event'])
     onFileStackFieldClick (event:MouseEvent){
         let accept = (this.dataFormat || "").split(",");
         let maxFiles = this.el.getAttribute("data-maxfiles");
-        //let dataType = this.el.getAttribute("data-type");
-        let dataType = this.dataType || this.el.getAttribute("data-type") || "";
+        // let dataType = this.el.getAttribute("data-type");
+        // let dataType = this.dataType || this.el.getAttribute("data-type") || "";
         if(this.appConfigSubscriber){
             this.appConfigSubscriber.unsubscribe();
             this.appConfigSubscriber = null;
         }
         
         let filestackConfig = this.appConfigService.key;
-        let s3BucketType = dataType == "APPLICATION" ? "application" :  "customer";
+        //let s3BucketType = dataType == "APPLICATION" ? "application" :  "customer";
         let fileStackClient = filestack.init(filestackConfig, { policy: 'policy', signature: 'signature' });
         
         fileStackClient.pick({
@@ -76,7 +70,7 @@ export class FileStack implements OnInit, OnDestroy{
             // },
             onFileSelected: function(file) {
                 var epoch 	= (new Date).getTime();
-                file.name 	= md5(epoch);
+                //file.name 	= md5(epoch);
                 return file;
             }
         })
@@ -98,4 +92,20 @@ export class FileStack implements OnInit, OnDestroy{
             }
         });
     }
+    
+    ngOnDestroy(){
+        if(this.appConfigSubscriber){
+            this.appConfigSubscriber.unsubscribe();
+            this.appConfigSubscriber = null;
+        }
+    }
 }
+
+
+// var client = filestack.init('AopksPQORR6IgXcMjzRQjz');
+//     function showPicker() {
+//         client.pick({
+//         }).then(function(result) {
+//             console.log(JSON.stringify(result.filesUploaded))
+//         });
+//     }

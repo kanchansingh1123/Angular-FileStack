@@ -35,7 +35,7 @@ export class AppConfigService {
     public endpoint : "/endpoint";
 
     // "filestack"
-    public key = "AtwbB54GRKuuUtalBgIFAz";
+    public key = "AopksPQORR6IgXcMjzRQjz";
 
     // "s3"
     public s3Key = "file-read-write";

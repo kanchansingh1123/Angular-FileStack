@@ -1,6 +1,18 @@
 <!--The whole content below can be removed with the new code.-->
 <div style="text-align:center">
    ******* Welcome to FileStack-App!!!!
-   <file-stack></file-stack>
+
+    <div class="fileinput-new thumbnail upload-img-cls">
+        <img [src]="userImage"  alt="profile.jpg" id='userImage'> 
+    </div>
+    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"> </div>
+    <div>
+        <file-stack [data-accept]="AppLitteralsConfig.uploadOthers" [typeId]="customerId" data-maxFiles="6" data-field="DOC_PATH" (complete)="onFileStackUploadComplete($event)">
+        	<button class="filestackBtn">
+                <i class="fa fa-upload"></i> Upload Document
+            </button>
+        </file-stack>
+    </div>
+   
 </div>
 
