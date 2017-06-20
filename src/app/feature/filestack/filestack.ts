@@ -55,6 +55,7 @@ export class FileStackComponent implements OnInit, OnDestroy{
         }
         
         let filestackConfig = this.appConfigService.key;
+        //let s3Config = this.appConfigService.getS3Config();
         //let s3BucketType = dataType == "APPLICATION" ? "application" :  "customer";
         let fileStackClient = filestack.init(filestackConfig, { policy: 'policy', signature: 'signature' });
         
@@ -68,11 +69,11 @@ export class FileStackComponent implements OnInit, OnDestroy{
             //     //container: s3Config.bucket[s3BucketType],
             //     region: 'ap-south-1'
             // },
-            onFileSelected: function(file) {
-                var epoch 	= (new Date).getTime();
-                //file.name 	= md5(epoch);
-                return file;
-            }
+            // onFileSelected: function(file) {
+            //     var epoch 	= (new Date).getTime();
+            //     //file.name 	= md5(epoch);
+            //     return file;
+            // }
         })
         .then((result:any) => {
             if(result.filesFailed.length > 0) {

@@ -2,3 +2,9 @@
     background-color: red;
     padding: 5px;
 }
+.images{
+    float: left;
+    width: 200px;
+    height: 200px;
+    margin: 5%;
+}

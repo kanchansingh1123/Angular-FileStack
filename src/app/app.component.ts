@@ -8,6 +8,7 @@ import { AppConfigService } from "providers/services/web/app-config.services";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  public userImages: any;
   title = 'app';
 
   public AppLitteralsConfig:any = AppLitteralsConfig;
@@ -17,11 +18,11 @@ export class AppComponent {
     }
 
   onFileStackUploadComplete(event) {
+    this.userImages = [];
 		if (event.success) {
-			event.data.forEach((o) => {
-				// this.personalInfoService.setProfileImage(o.key);
-				// this.userImage = o.url;
-				// this.isImage = true;
+			event.data.forEach((data) => {
+				//this.userImage = data.url;
+        this.userImages.push(data.url);
 			});
 		}
 	}
