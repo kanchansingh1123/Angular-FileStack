@@ -1,6 +1,6 @@
 # Angular-FileStack
 
-File Stack feature component in Angular.
+File Stack feature module in Angular.
 
 
 Step's :
