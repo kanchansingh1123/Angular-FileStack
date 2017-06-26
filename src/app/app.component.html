@@ -1,24 +1,18 @@
 <!--The whole content below can be removed with the new code.-->
-<div style="text-align:center">
-    <div class="fileinput-new thumbnail upload-img-cls" *ngFor='let url of userImages; let i = index;'>
-        <img class="images" [src]="url"  alt="profile.jpg" id='url'> 
-        <!--<a href='{{url}}'class="font-red" target="_blank">
-            <i class="fa fa-file"></i>&nbsp; &nbsp;File {{i+1}}
-        </a>-->
-    </div><br/>
-    <!--<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;" > </div>-->
+<div class="file-stack-dev">
     <div>
-        <file-stack [data-accept]="AppLitteralsConfig.uploadOthers" [typeId]="customerId" data-maxFiles="6" data-field="DOC_PATH" (complete)="onFileStackUploadComplete($event)">
-        	<button class="filestackBtn">
-                <i class="fa fa-upload"></i> Upload Images
+        <file-stack [data-accept]="AppLitteralsConfig.uploadOthers" data-maxFiles="6" (complete)="onFileStackUploadComplete($event)">
+            <button class="btn-font">
+                <i></i> Upload File Using File Stack
             </button>
+            <br>
+            <br>
         </file-stack>
-        <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12 files" *ngFor='let url of userImages; let i = index;'>
-            <a href='{{url}}'class="font-red" target="_blank">
-            <i class="fa fa-file"></i>&nbsp; &nbsp;File {{i+1}}
+        <span *ngFor='let file of uploadedFiles; let i = index;'>
+            <a href='{{file.url}}'class="font-red" target="_blank">
+            <i class="fa fa-file"></i>&nbsp; &nbsp;File {{file.originalPath}}
             </a>
+            <br>
         </span>
     </div>
-   
 </div>
-

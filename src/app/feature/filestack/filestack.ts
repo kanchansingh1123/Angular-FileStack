@@ -1,112 +1,80 @@
 declare var filestack;
-declare var md5;
 
-import {Subscription} from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
 import { Component, HostListener, ElementRef, Renderer, EventEmitter, Output, Input, OnInit, OnDestroy } from '@angular/core';
 import { AppConfigService } from "providers/services/web/app-config.services";
 
 @Component({
-    selector : "file-stack",
-    templateUrl : "filestack.html"
+    selector: "file-stack",
+    templateUrl: "filestack.html"
 })
 
-export class FileStackComponent implements OnInit, OnDestroy{
-    private el:HTMLElement;
-
-    public key = "AtwbB54GRKuuUtalBgIFAz";
-
-    @Input("typeId")
-    private typeId: String;
-
-    @Input("config")
-    private config:any;
+export class FileStackComponent implements OnInit, OnDestroy {
+    private el: HTMLElement;
 
     @Input("data-accept")
-    private dataFormat:any;
-
-    @Input("type")
-    private dataType;
+    private dataFormat: any;
 
     @Output("complete")
-    private output:EventEmitter<any> = new EventEmitter<any>();
+    private output: EventEmitter<any> = new EventEmitter<any>();
 
     private appConfigSubscriber: Subscription;
 
-    
-    constructor( private _elementRef: ElementRef, private _renderer : Renderer, private appConfigService: AppConfigService){
+
+    constructor(private _elementRef: ElementRef, private _renderer: Renderer, private appConfigService: AppConfigService) {
         this.el = _elementRef.nativeElement;
     }
 
-    ngOnInit(){
-       // this.appConfigSubscriber = this.appConfigService.getConfig().subscribe();
-    }
-    
+    ngOnInit() {
 
-    /**open filestack on click event**/
+    }
+
+    //open filestack on click event
     @HostListener("click", ['$event'])
-    onFileStackFieldClick (event:MouseEvent){
+    onFileStackFieldClick(event: MouseEvent) {
         let accept = (this.dataFormat || "").split(",");
         let maxFiles = this.el.getAttribute("data-maxfiles");
-        // let dataType = this.el.getAttribute("data-type");
-        // let dataType = this.dataType || this.el.getAttribute("data-type") || "";
-        if(this.appConfigSubscriber){
+        if (this.appConfigSubscriber) {
             this.appConfigSubscriber.unsubscribe();
             this.appConfigSubscriber = null;
         }
-        
-        let filestackConfig = this.appConfigService.key;
-        //let s3Config = this.appConfigService.getS3Config();
-        //let s3BucketType = dataType == "APPLICATION" ? "application" :  "customer";
+
+        let filestackConfig = this.appConfigService.getFilestackConfig().key;
         let fileStackClient = filestack.init(filestackConfig, { policy: 'policy', signature: 'signature' });
-        
+
         fileStackClient.pick({
-            accept : accept,
-            maxFiles : parseInt(maxFiles),
-            fromSources: 'local_file_system',
-            // storeTo: {
-            //     location: 's3',
-            //     path: md5(this.typeId) + "/",
-            //     //container: s3Config.bucket[s3BucketType],
-            //     region: 'ap-south-1'
-            // },
-            // onFileSelected: function(file) {
-            //     var epoch 	= (new Date).getTime();
-            //     //file.name 	= md5(epoch);
-            //     return file;
-            // }
+            accept: accept,
+            maxFiles: parseInt(maxFiles),
+            /*fromSources: 'local_file_system',*/
+            /*storeTo: {
+                location: 's3',
+                // s3 configuration
+            },*/
+            onFileSelected: function(file) {
+                return file;
+            }
         })
-        .then((result:any) => {
-            if(result.filesFailed.length > 0) {
+        .then((result: any) => {
+            if (result.filesFailed.length > 0) {
                 this.output.emit({
-                    success : false,
-                    data : result.filesFailed,
-                    config : this.config
+                    success: false,
+                    data: result.filesFailed
                 });
             }
             else {
                 result.filesUploaded = result.filesUploaded || [];
                 this.output.emit({
-                    success : true,
-                    data : result.filesUploaded,
-                    config : this.config
+                    success: true,
+                    data: result.filesUploaded
                 });
             }
         });
     }
-    
-    ngOnDestroy(){
-        if(this.appConfigSubscriber){
+
+    ngOnDestroy() {
+        if (this.appConfigSubscriber) {
             this.appConfigSubscriber.unsubscribe();
             this.appConfigSubscriber = null;
         }
     }
 }
-
-
-// var client = filestack.init('AopksPQORR6IgXcMjzRQjz');
-//     function showPicker() {
-//         client.pick({
-//         }).then(function(result) {
-//             console.log(JSON.stringify(result.filesUploaded))
-//         });
-//     }

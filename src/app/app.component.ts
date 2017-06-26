@@ -7,23 +7,26 @@ import { AppConfigService } from "providers/services/web/app-config.services";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
-  public userImages: any;
-  title = 'app';
+  public uploadedFiles: Array<any> = [];
 
-  public AppLitteralsConfig:any = AppLitteralsConfig;
+  public AppLitteralsConfig: any = AppLitteralsConfig;
 
-   constructor( private appConfigService: AppConfigService){
-     
+  constructor(private appConfigService: AppConfigService) {
+
+  }
+
+  /**
+   * Method to handle file stack upload complete
+   * @param files  file stack uploaded data 
+   */
+  onFileStackUploadComplete(files) {
+    this.uploadedFiles = [];
+    if (files.success) {
+      files.data.forEach((data) => {
+        this.uploadedFiles.push(data);
+      });
     }
-
-  onFileStackUploadComplete(event) {
-    this.userImages = [];
-		if (event.success) {
-			event.data.forEach((data) => {
-				//this.userImage = data.url;
-        this.userImages.push(data.url);
-			});
-		}
-	}
+  }
 }

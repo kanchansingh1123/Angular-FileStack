@@ -1,10 +1,11 @@
-.filestackBtn{
-    background-color: red;
-    padding: 5px;
+.file-stack-dev {
+    text-align: center;
+    position: absolute;
+    top: 20%;
+    left: 20%;
 }
-.images{
-    float: left;
-    width: 200px;
-    height: 200px;
-    margin: 5%;
+
+.btn-font {
+    font-size: large;
+    cursor: pointer;
 }

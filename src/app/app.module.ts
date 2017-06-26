@@ -11,11 +11,14 @@ import { FileStackComponent } from "app/feature/filestack/filestack";
     AppComponent,
     FileStackComponent
   ],
+
   imports: [
     BrowserModule,
     HttpModule
   ],
+  
   providers: [AppConfigService],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
